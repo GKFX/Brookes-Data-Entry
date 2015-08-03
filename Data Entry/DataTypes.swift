@@ -28,7 +28,7 @@ class Study {
     var name = ""
     var tests = [Test]()
     var results = [Participant]()
-    var customDataTypes = [Test]()
+    var customDataTypes = [DataType]()
 }
 
 
@@ -41,8 +41,9 @@ class Participant {
 
 typealias Test     = (name: String, fields: [Field])
 typealias DataType = (name: String, fields: [Field])
-typealias TestRun  = (name: String, values: [String])
+typealias TestRun  = (name: String, values: [Value])
 
 typealias Field    = (name: String, type: String)
+typealias Value    = (name: String, content: String)
 
 let stdTypes = ["Plain", "Number", "Date", "Email", "Prose"]

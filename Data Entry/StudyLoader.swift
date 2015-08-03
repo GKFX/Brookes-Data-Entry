@@ -24,19 +24,20 @@
 import Foundation
 
 
-class StudyLoader : NSXMLParserDelegate {
+class StudyLoader : NSObject, NSXMLParserDelegate {
     var state:    Int      = 0
     var study:    Study    = Study()
     var dataType: DataType = ("", [Field]())
     var test:     Test     = ("", [Field]())
-    var testRun:  TestRun  = ("", [String]())
+    var testRun:  TestRun  = ("", [Value]())
+    var valueName: String? = nil
     var participant        = Participant()
 
     func loadStudy(id: Int) -> (Study) {
        // TODO might fail if array empty?
        var path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, domainMask: NSUserDomainMask, expandTilde: YES)[0];
 
-        if let inputStream = NSInputStream(fileAtPath: path + "/study\(id).xml" {
+        if let inputStream = NSInputStream(fileAtPath: path + "/study\(id).xml") {
             if let parser = NSXMLParser(inputStream) {
                 parser.delegate = self
                 parser.parse()
@@ -48,7 +49,7 @@ class StudyLoader : NSXMLParserDelegate {
         }
     }
 
-    func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
+    func parser(parser: NSXMLParser??!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
         if (elementName == "study") {
             study.name = attributeDict["name"] as! String
         } else if (elementName == "plan") {
@@ -75,23 +76,31 @@ class StudyLoader : NSXMLParserDelegate {
             state = 2
         } else if (elementName == "participant") && (state == 2) {
             participant = Participant()
-            if let id = Int(attributeDict["id"] as? String) {
+            if let id = (attributeDict["id"] as? String)?.toInt() {
                 participant.id = id
                 study.results.append(participant)
             } // else no participant added.
         } else if (elementName == "test") && (state == 2) {
-            testRun = (attributeDict["name"] as! String, [String]()) 
+            testRun = (attributeDict["name"] as! String, [Value]())
             participant.testsRun.append(testRun)
         } else if (elementName == "value") && (state == 2) {
-            testRun.append((attributeDict["name"] as! String, attributeDict["value"] as! String))
+            valueName = attributeDict["name"] as? String
+        }
+    }
+    
+    
+    func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
+        if (valueName != nil) {
+            testRun.values[valueName!] = NSString(data: CDATABlock, encoding: NSUTF8StringEncoding)
+            valueName == nil;
         }
     }
 
   
-    func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
+    func parser(parser: NSXMLParser??!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
         if (elementName == "plan") || (elementName == "results") {
             state = 0;
-        } else if (elementType == "data-type") && (state == 11) {
+        } else if (elementName == "data-type") && (state == 11) {
             state = 1;
         }
     }

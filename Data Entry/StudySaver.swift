@@ -25,14 +25,44 @@ import Foundation
 
 
 // Apparently no standard XML writer on iOS.
-// Not enough time to learn another API.
 class StudySaver {
     func saveStudy(id: Int, study: Study) -> () {
         var xmlOut = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        xmlOut += "<study name=\"\(study.name)\">\n"
+        xmlOut += xmlFormat("<study name=\"%s\">\n", study.name)
+        xmlOut += "  <plan>\n"
+        for dataType in study.customDataTypes {
+            xmlOut += xmlFormat("    <data-type name=\"%s\">\n", dataType.name)
+            for field in dataType.fields {
+                xmlOut += xmlFormat("       <value name=\"%s\" type=\"%s\" />\n", field.name, field.type)
+            }
+            xmlOut += "    </data-type>\n"
+        }
+        for test in study.tests {
+            xmlOut += xmlFormat("    <test name=\"%s\">\n", test.name)
+            for field in test.fields {
+                xmlOut += xmlFormat("       <value name=\"%s\" type=\"%s\" />\n", field.name, field.type)
+            }
+        }
+        xmlOut += "  </plan>\n"
+        
+        xmlOut += "  <results>\n"
+        for participant in study.results {
+            xmlOut += xmlFormat("    <participant id=\"%s\">\n", "\(participant.id)")
+            for test in participant.testsRun {
+                xmlOut += xmlFormat("      <test name=\"%s\">\n", test.name)
+                for value in test.values {
+                    // No pretty-printing!!
+                    xmlOut += xmlFormat("        <value name=\"%s\">%s</value>\n", value.name)
+                }
+                xmlOut += "      </test>"
+            }
+            xmlOut += "  </participant>\n"
+        }
+        xmlOut += "  </results>\n"
+        xmlOut += "</study>"
     }
     
-    func xmlFormat(str: String, _ args: CVarArgType...) -> String {
+    func xmlFormat(str: String, _ args: String...) -> String {
         return String(format: str, arguments: args.map({
             $0.stringByReplacingOccurrencesOfString("&", withString: "&amp;")
               .stringByReplacingOccurrencesOfString("<", withString: "&lt;")
