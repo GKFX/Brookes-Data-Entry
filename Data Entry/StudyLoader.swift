@@ -31,21 +31,39 @@ class StudyLoader : NSObject, NSXMLParserDelegate {
     var test:     Test     = ("", [Field]())
     var testRun:  TestRun  = ("", [Value]())
     var valueName: String? = nil
+    var valueCont: String? = nil
     var participant        = Participant()
+    
+    
+    /// List names of studies for use with loadStudy
+    func listStudies() -> [String] {
+        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+        println(path)
+        let filemgr = NSFileManager.defaultManager()
+        var error: NSError?
+        let filelist = filemgr.contentsOfDirectoryAtPath(path, error: &error)!
+        var idlist: [String] = [String]()
+        
+        for filename in filelist {
+            var str: String = filename as! String
+            str = str.substringWithRange(Range<String.Index>(start: advance(str.startIndex, 6), end: advance(str.endIndex, -4)))
+            idlist.append(str)
+        }
+        return idlist
+    }
 
-    func loadStudy(id: Int) -> (Study) {
-       // TODO might fail if array empty?
-       var path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, domainMask: NSUserDomainMask, expandTilde: YES)[0];
+    func loadStudy(id: String) -> (Study?) {
+        // TODO might fail if array empty?
+        var path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
 
-        if let inputStream = NSInputStream(fileAtPath: path + "/study\(id).xml") {
-            if let parser = NSXMLParser(inputStream) {
-                parser.delegate = self
-                parser.parse()
-            } else {
-                
-            }
-        } else {
+        if let inputStream = NSInputStream(fileAtPath: path + "/study_\(id).xml") {
+            let parser = NSXMLParser(stream: inputStream)
+            parser.delegate = self
+            parser.parse()
             
+            return study
+        } else {
+            return nil
         }
     }
 
@@ -89,10 +107,9 @@ class StudyLoader : NSObject, NSXMLParserDelegate {
     }
     
     
-    func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
-        if (valueName != nil) {
-            testRun.values[valueName!] = NSString(data: CDATABlock, encoding: NSUTF8StringEncoding)
-            valueName == nil;
+    func parser(parser: NSXMLParser, foundCharacters string: String?) {
+        if (valueName != nil) && (string != nil) {
+            valueCont = (valueCont ?? "") + string!
         }
     }
 

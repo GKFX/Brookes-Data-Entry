@@ -26,33 +26,35 @@ import Foundation
 
 // Apparently no standard XML writer on iOS.
 class StudySaver {
-    func saveStudy(id: Int, study: Study) -> () {
+    let docsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+    
+    func saveStudy(id: String, study: Study) -> () {
         var xmlOut = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        xmlOut += xmlFormat("<study name=\"%s\">\n", study.name)
+        xmlOut += xmlFormat("<study name=\"%@\">\n", study.name)
         xmlOut += "  <plan>\n"
         for dataType in study.customDataTypes {
-            xmlOut += xmlFormat("    <data-type name=\"%s\">\n", dataType.name)
+            xmlOut += xmlFormat("    <data-type name=\"%@\">\n", dataType.name)
             for field in dataType.fields {
-                xmlOut += xmlFormat("       <value name=\"%s\" type=\"%s\" />\n", field.name, field.type)
+                xmlOut += xmlFormat("       <value name=\"%@\" type=\"%@\" />\n", field.name, field.type)
             }
             xmlOut += "    </data-type>\n"
         }
         for test in study.tests {
-            xmlOut += xmlFormat("    <test name=\"%s\">\n", test.name)
+            xmlOut += xmlFormat("    <test name=\"%@\">\n", test.name)
             for field in test.fields {
-                xmlOut += xmlFormat("       <value name=\"%s\" type=\"%s\" />\n", field.name, field.type)
+                xmlOut += xmlFormat("       <value name=\"%@\" type=\"%@\" />\n", field.name, field.type)
             }
         }
         xmlOut += "  </plan>\n"
         
         xmlOut += "  <results>\n"
         for participant in study.results {
-            xmlOut += xmlFormat("    <participant id=\"%s\">\n", "\(participant.id)")
+            xmlOut += xmlFormat("    <participant id=\"%@\">\n", "\(participant.id)")
             for test in participant.testsRun {
-                xmlOut += xmlFormat("      <test name=\"%s\">\n", test.name)
+                xmlOut += xmlFormat("      <test name=\"%@\">\n", test.name)
                 for value in test.values {
                     // No pretty-printing!!
-                    xmlOut += xmlFormat("        <value name=\"%s\">%s</value>\n", value.name)
+                    xmlOut += xmlFormat("        <value name=\"%@\">%@</value>\n", value.name)
                 }
                 xmlOut += "      </test>"
             }
@@ -60,6 +62,8 @@ class StudySaver {
         }
         xmlOut += "  </results>\n"
         xmlOut += "</study>"
+        
+        xmlOut.writeToFile(docsPath + "/study_\(id).xml", atomically: true, encoding: NSUTF8StringEncoding, error: nil)
     }
     
     func xmlFormat(str: String, _ args: String...) -> String {
@@ -69,6 +73,7 @@ class StudySaver {
               .stringByReplacingOccurrencesOfString(">", withString: "&gt;")
               .stringByReplacingOccurrencesOfString("\"", withString: "&quot;")
               .stringByReplacingOccurrencesOfString("'", withString: "&apos;")
+              as NSString
         }))
     }
 }
