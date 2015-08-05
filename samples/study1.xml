@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<study name="DCD Study">
+  <plan>
+    <data-type name="RPE">
+      <value name="L" type="Number />
+      <value name="B" type="Number />
+      <value name="O" type="Number />
+    </data-type>
+
+    <test name="Personal data">
+      <value type="date" name="DOB" />
+      <value type="plain" name="Name" />
+    </test>
+    <test name="HI">
+      <value type="RPE" name="0" />
+      <value type="RPE" name="5" />
+      <value type="RPE" name="10" />
+      <value type="RPE" name="15" />
+    </test>
+  </plan>
+
+  <results>
+    <participant id="0">
+      <test name="Personal data">
+        <value name="DOB">1998-02-05</value>
+        <value name="Name">George Bateman</value>
+      </test>
+      <test name="HI">
+        <value name="0¬L">1</value>
+        <value name="0¬B">1</value>
+        <value name="0¬O">1</value>
+        <value name="5¬L">1</value>
+        <value name="5¬B">1</value>
+        <value name="5¬O">1</value>
+        <value name="10¬L">1</value>
+        <value name="10¬B">1</value>
+        <value name="10¬O">1</value>
+      </test>
+      <note>Stopped at 11 mins.</note>
+    </participant>
+  </results>
+</study>
