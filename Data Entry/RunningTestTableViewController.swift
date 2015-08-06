@@ -1,14 +1,14 @@
 //
-//  TestsTableViewController.swift
+//  RunningTestTableViewController.swift
 //  Data Entry
 //
-//  Created by Dax on 03/08/2015.
+//  Created by Dax on 04/08/2015.
 //  Copyright (c) 2015 Oxford Brookes. All rights reserved.
 //
 
 import UIKit
 
-class TestsTableViewController: UITableViewController {
+class RunningTestTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
