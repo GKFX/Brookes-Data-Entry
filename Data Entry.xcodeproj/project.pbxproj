@@ -7,13 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F7BFAD21B71000A00AC5EF7 /* NewStudyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7BFAD11B71000A00AC5EF7 /* NewStudyTableViewController.swift */; };
+		5F7BFAD41B71019400AC5EF7 /* StudyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7BFAD31B71019400AC5EF7 /* StudyTableViewController.swift */; };
+		5F7BFAD61B7104FE00AC5EF7 /* RunningTestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7BFAD51B7104FE00AC5EF7 /* RunningTestTableViewController.swift */; };
+		5FD25AA81B70EA30006F4FD1 /* TextInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD25AA71B70EA30006F4FD1 /* TextInputTableViewCell.swift */; };
 		5FFD9E371B6F69630097491A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E361B6F69630097491A /* AppDelegate.swift */; };
-		5FFD9E391B6F69630097491A /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E381B6F69630097491A /* MasterViewController.swift */; };
-		5FFD9E3B1B6F69630097491A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E3A1B6F69630097491A /* DetailViewController.swift */; };
 		5FFD9E3E1B6F69630097491A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FFD9E3C1B6F69630097491A /* Main.storyboard */; };
 		5FFD9E401B6F69630097491A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FFD9E3F1B6F69630097491A /* Images.xcassets */; };
 		5FFD9E431B6F69630097491A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FFD9E411B6F69630097491A /* LaunchScreen.xib */; };
 		5FFD9E4F1B6F69630097491A /* Data_EntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E4E1B6F69630097491A /* Data_EntryTests.swift */; };
+		5FFD9E5D1B6F6C290097491A /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E5A1B6F6C290097491A /* DataTypes.swift */; };
+		5FFD9E5E1B6F6C290097491A /* StudyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E5B1B6F6C290097491A /* StudyLoader.swift */; };
+		5FFD9E5F1B6F6C290097491A /* StudySaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E5C1B6F6C290097491A /* StudySaver.swift */; };
+		5FFD9E631B6F7C7E0097491A /* StudiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9E621B6F7C7E0097491A /* StudiesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,17 +33,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F7BFAD11B71000A00AC5EF7 /* NewStudyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewStudyTableViewController.swift; sourceTree = "<group>"; };
+		5F7BFAD31B71019400AC5EF7 /* StudyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyTableViewController.swift; sourceTree = "<group>"; };
+		5F7BFAD51B7104FE00AC5EF7 /* RunningTestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunningTestTableViewController.swift; sourceTree = "<group>"; };
+		5FD25AA71B70EA30006F4FD1 /* TextInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputTableViewCell.swift; sourceTree = "<group>"; };
 		5FFD9E311B6F69630097491A /* Data Entry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Data Entry.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FFD9E351B6F69630097491A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FFD9E361B6F69630097491A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5FFD9E381B6F69630097491A /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		5FFD9E3A1B6F69630097491A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		5FFD9E3D1B6F69630097491A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5FFD9E3F1B6F69630097491A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5FFD9E421B6F69630097491A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5FFD9E481B6F69630097491A /* Data EntryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Data EntryTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FFD9E4D1B6F69630097491A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FFD9E4E1B6F69630097491A /* Data_EntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data_EntryTests.swift; sourceTree = "<group>"; };
+		5FFD9E5A1B6F6C290097491A /* DataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
+		5FFD9E5B1B6F6C290097491A /* StudyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StudyLoader.swift; sourceTree = "<group>"; };
+		5FFD9E5C1B6F6C290097491A /* StudySaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StudySaver.swift; sourceTree = "<group>"; };
+		5FFD9E611B6F7A630097491A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		5FFD9E621B6F7C7E0097491A /* StudiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudiesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +92,16 @@
 		5FFD9E331B6F69630097491A /* Data Entry */ = {
 			isa = PBXGroup;
 			children = (
+				5F7BFAD11B71000A00AC5EF7 /* NewStudyTableViewController.swift */,
 				5FFD9E361B6F69630097491A /* AppDelegate.swift */,
-				5FFD9E381B6F69630097491A /* MasterViewController.swift */,
-				5FFD9E3A1B6F69630097491A /* DetailViewController.swift */,
+				5FFD9E5A1B6F6C290097491A /* DataTypes.swift */,
+				5FFD9E5C1B6F6C290097491A /* StudySaver.swift */,
+				5FFD9E5B1B6F6C290097491A /* StudyLoader.swift */,
 				5FFD9E3C1B6F69630097491A /* Main.storyboard */,
+				5F7BFAD51B7104FE00AC5EF7 /* RunningTestTableViewController.swift */,
+				5F7BFAD31B71019400AC5EF7 /* StudyTableViewController.swift */,
+				5FD25AA71B70EA30006F4FD1 /* TextInputTableViewCell.swift */,
+				5FFD9E621B6F7C7E0097491A /* StudiesTableViewController.swift */,
 				5FFD9E3F1B6F69630097491A /* Images.xcassets */,
 				5FFD9E411B6F69630097491A /* LaunchScreen.xib */,
 				5FFD9E341B6F69630097491A /* Supporting Files */,
@@ -215,9 +234,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FFD9E3B1B6F69630097491A /* DetailViewController.swift in Sources */,
-				5FFD9E391B6F69630097491A /* MasterViewController.swift in Sources */,
+				5F7BFAD61B7104FE00AC5EF7 /* RunningTestTableViewController.swift in Sources */,
+				5FFD9E5D1B6F6C290097491A /* DataTypes.swift in Sources */,
+				5FFD9E5F1B6F6C290097491A /* StudySaver.swift in Sources */,
+				5F7BFAD21B71000A00AC5EF7 /* NewStudyTableViewController.swift in Sources */,
 				5FFD9E371B6F69630097491A /* AppDelegate.swift in Sources */,
+				5FD25AA81B70EA30006F4FD1 /* TextInputTableViewCell.swift in Sources */,
+				5FFD9E631B6F7C7E0097491A /* StudiesTableViewController.swift in Sources */,
+				5FFD9E5E1B6F6C290097491A /* StudyLoader.swift in Sources */,
+				5F7BFAD41B71019400AC5EF7 /* StudyTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +269,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5FFD9E3D1B6F69630097491A /* Base */,
+				5FFD9E611B6F7A630097491A /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -346,6 +372,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Data Entry/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -356,6 +383,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Data Entry/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -415,6 +443,7 @@
 				5FFD9E541B6F69630097491A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5FFD9E551B6F69630097491A /* Build configuration list for PBXNativeTarget "Data EntryTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +452,7 @@
 				5FFD9E571B6F69630097491A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
