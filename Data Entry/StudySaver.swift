@@ -22,10 +22,11 @@
 
 
 import Foundation
+import MessageUI
 
 
 // Apparently no standard XML writer on iOS.
-class StudySaver {
+class StudySaver: MFMailComposeViewControllerDelegate {
     let docsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
     
     func saveStudy(id: String, study: Study) -> () {
@@ -78,7 +79,7 @@ class StudySaver {
     }
     
     
-    func exportStudy(study: Study) {
+    func exportStudy(study: Study, viewController: UIViewController) {
         var noCols = 0
         for (t: Test in study.tests) {
             noCols += t.fields.count
@@ -111,7 +112,8 @@ class StudySaver {
         for participant in study.results {
             for var i = 0; i < study.tests.count; i++ {
                 for var j = 0; j < study.tests[i].fields.count; j++ {
-                    csvOut += getResultOfTest(participant.testsRun, testName: study.tests[i].name, study.tests[i].fields[j].name)
+                    csvOut += getResultOfTest(participant.testsRun, testName: study.tests[i].name,
+                        study.tests[i].fields[j].name) ?? ""
                     if (i < study.tests.count - 1) || (j < study.tests[i].fields.count - 1) {
                         csvOut += ","
                     }
@@ -119,6 +121,29 @@ class StudySaver {
             }
             csvOut += "\n"
         }
+
+        if let csvData = (csvOut as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
+            let mailVC = MFMailComposeViewController()
+            mailVC.mailComposeDelegate = self
+            mailVC.setMessageBody("Exported data from Brookes Data Entry.", isHTML: false)
+            mailVC.addAttachmentData(csvData, mimetype: "text/csv", fileName: NSRegularExpression(
+                "[/\\:*?"<>|]").stringByReplacingMatchesInString(study.name,  options: nil,
+                range: NSMakeRange(0, stringlength), withTemplate: "-"))
+        
+            if MFMailComposeViewController.canSendMail() {
+                viewController.presentViewController(mailVC, animated: true, completion: nil)
+            } else {
+                UIAlertView(title: "Cannot send file as email",
+                   message: "Set up your email correctly and try again.",
+                   delegate: nil,
+                   cancelButtonTitle: "OK").show()
+            }
+        }
+    }
+    
+    // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func getResultOfTest(testsRun: [TestRun], testName: String, fieldName: String) -> (String?) {
