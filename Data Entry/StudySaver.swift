@@ -76,4 +76,61 @@ class StudySaver {
               as NSString
         }))
     }
+    
+    
+    func exportStudy(study: Study) {
+        var noCols = 0
+        for (t: Test in study.tests) {
+            noCols += t.fields.count
+        }
+        if (noCols <= 0) {
+            UIAlertView(title: "No fields",
+                message: "You must have some data before you export it.",
+                delegate: nil,
+                cancelButtonTitle: "OK").show()
+            return
+        }
+        
+        var csvOut = study.name + String(count: noCols - 1, repeatedValue: Character(",")) + "\n"
+        for t: Test in study.tests {
+            if (t.fields.count == 0) { continue }
+            csvOut += t.name + String(count: t.fields.count - 1, repeatedValue: Character(","))
+        }
+        csvOut += "\n"
+        
+        for var i = 0; i < study.tests.count; i++ {
+            for var j = 0; j < study.tests[i].fields.count; j++ {
+                csvOut += study.tests[i].fields[j].name
+                if (i < study.tests.count - 1) || (j < study.tests[i].fields.count - 1) {
+                    csvOut += ","
+                }
+            }
+        }
+        csvOut += "\n"
+        
+        for participant in study.results {
+            for var i = 0; i < study.tests.count; i++ {
+                for var j = 0; j < study.tests[i].fields.count; j++ {
+                    csvOut += getResultOfTest(participant.testsRun, testName: study.tests[i].name, study.tests[i].fields[j].name)
+                    if (i < study.tests.count - 1) || (j < study.tests[i].fields.count - 1) {
+                        csvOut += ","
+                    }
+                }
+            }
+            csvOut += "\n"
+        }
+    }
+    
+    func getResultOfTest(testsRun: [TestRun], testName: String, fieldName: String) -> (String?) {
+        for testRun: TestRun in testsRun {
+            if (testRun.name == testName) {
+                for value: Value in testRun {
+                    if (value.name == fieldName) {
+                        return value.content
+                    }
+                }
+            }
+        }
+        return nil
+    }
 }
