@@ -2,9 +2,9 @@
 <study name="DCD Study">
   <plan>
     <data-type name="RPE">
-      <value name="L" type="Number />
-      <value name="B" type="Number />
-      <value name="O" type="Number />
+      <value name="L" type="Number" />
+      <value name="B" type="Number" />
+      <value name="O" type="Number" />
     </data-type>
 
     <test name="Personal data">
