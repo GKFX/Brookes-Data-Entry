@@ -98,6 +98,7 @@ class StudiesTableViewController: UITableViewController {
     
     
     @IBAction func closeNewStudy(segue: UIStoryboardSegue) {
+        reloadStudies()
         self.tableView.reloadData()
     }
     
