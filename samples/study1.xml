@@ -26,15 +26,15 @@
         <value name="Name">George Bateman</value>
       </test>
       <test name="HI">
-        <value name="0¬L">1</value>
-        <value name="0¬B">1</value>
-        <value name="0¬O">1</value>
-        <value name="5¬L">1</value>
-        <value name="5¬B">1</value>
-        <value name="5¬O">1</value>
-        <value name="10¬L">1</value>
-        <value name="10¬B">1</value>
-        <value name="10¬O">1</value>
+        <value name="0: L">1</value>
+        <value name="0: B">1</value>
+        <value name="0: O">1</value>
+        <value name="5: L">1</value>
+        <value name="5: B">1</value>
+        <value name="5: O">1</value>
+        <value name="10: L">1</value>
+        <value name="10: B">1</value>
+        <value name="10: O">1</value>
       </test>
       <note>Stopped at 11 mins.</note>
     </participant>
