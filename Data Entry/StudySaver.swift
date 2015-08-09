@@ -69,17 +69,22 @@ class StudySaver: MFMailComposeViewControllerDelegate {
     
     func xmlFormat(str: String, _ args: String...) -> String {
         return String(format: str, arguments: args.map({
-            $0.stringByReplacingOccurrencesOfString("&", withString: "&amp;")
-              .stringByReplacingOccurrencesOfString("<", withString: "&lt;")
-              .stringByReplacingOccurrencesOfString(">", withString: "&gt;")
+            $0.stringByReplacingOccurrencesOfString("&",  withString: "&amp;")
+              .stringByReplacingOccurrencesOfString("<",  withString: "&lt;")
+              .stringByReplacingOccurrencesOfString(">",  withString: "&gt;")
               .stringByReplacingOccurrencesOfString("\"", withString: "&quot;")
-              .stringByReplacingOccurrencesOfString("'", withString: "&apos;")
+              .stringByReplacingOccurrencesOfString("'",  withString: "&apos;")
               as NSString
         }))
     }
     
     
+    /**
+     * Export to CSV in an email popup.
+     * See RFC 4180 at https://tools.ietf.org/html/rfc4180
+     */
     func exportStudy(study: Study, viewController: UIViewController) {
+        let CRLF = "\r\n"
         var noCols = 0
         for (t: Test in study.tests) {
             noCols += t.fields.count
@@ -92,34 +97,38 @@ class StudySaver: MFMailComposeViewControllerDelegate {
             return
         }
         
-        var csvOut = study.name + String(count: noCols - 1, repeatedValue: Character(",")) + "\n"
-        for t: Test in study.tests {
-            if (t.fields.count == 0) { continue }
-            csvOut += t.name + String(count: t.fields.count - 1, repeatedValue: Character(","))
+        var csvOut = csvEscape(study.name) + String(count: noCols - 1, repeatedValue: Character(",")) + CRLF
+        for var i = 0; i < study.tests.count; i++ {
+            if (study.tests[i].fields.count == 0) { continue }
+
+            csvOut += csvEscape(t.name) + String(count: (i == study.tests.count - 1) 
+                ? t.fields.count - 1 : t.fields.count, repeatedValue: Character(","))
         }
-        csvOut += "\n"
+        csvOut += CRLF
         
         for var i = 0; i < study.tests.count; i++ {
+            if (study.tests[i].fields.count == 0) { continue }
             for var j = 0; j < study.tests[i].fields.count; j++ {
-                csvOut += study.tests[i].fields[j].name
+                csvOut += csvEscape(study.tests[i].fields[j].name)
                 if (i < study.tests.count - 1) || (j < study.tests[i].fields.count - 1) {
                     csvOut += ","
                 }
             }
         }
-        csvOut += "\n"
+        csvOut += CRLF
         
         for participant in study.results {
             for var i = 0; i < study.tests.count; i++ {
+                if (study.tests[i].fields.count == 0) { continue }
                 for var j = 0; j < study.tests[i].fields.count; j++ {
-                    csvOut += getResultOfTest(participant.testsRun, testName: study.tests[i].name,
-                        study.tests[i].fields[j].name) ?? ""
+                    csvOut += csvEscape(getResultOfTest(participant.testsRun, testName: study.tests[i].name,
+                        study.tests[i].fields[j].name)) ?? ""
                     if (i < study.tests.count - 1) || (j < study.tests[i].fields.count - 1) {
                         csvOut += ","
                     }
                 }
             }
-            csvOut += "\n"
+            csvOut += CRLF
         }
 
         if let csvData = (csvOut as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
@@ -127,7 +136,7 @@ class StudySaver: MFMailComposeViewControllerDelegate {
             mailVC.mailComposeDelegate = self
             mailVC.setMessageBody("Exported data from Brookes Data Entry.", isHTML: false)
             mailVC.addAttachmentData(csvData, mimetype: "text/csv", fileName: NSRegularExpression(
-                "[/\\:*?"<>|]").stringByReplacingMatchesInString(study.name,  options: nil,
+                "[/\\:*?\"<>|]").stringByReplacingMatchesInString(study.name,  options: nil,
                 range: NSMakeRange(0, stringlength), withTemplate: "-"))
         
             if MFMailComposeViewController.canSendMail() {
@@ -141,7 +150,7 @@ class StudySaver: MFMailComposeViewControllerDelegate {
         }
     }
     
-    // MARK: MFMailComposeViewControllerDelegate Method
+    // MFMailComposeViewControllerDelegate Method
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -157,5 +166,15 @@ class StudySaver: MFMailComposeViewControllerDelegate {
             }
         }
         return nil
+    }
+
+    func csvEscape(var str: String) -> String {
+        str = str.stringByReplacingOccurrencesOfString("\r", "")
+                 .stringByReplacingOccurrencesOfString("\n", "\r\n")
+        if let x = str.rangeOfCharactersFromSet(NSCharacterSet("\n\",")) {
+            return "\"" + str.stringByReplacingOccurrencesOfString("\"", "\"\"") + "\""
+        } else {
+            return str
+        }
     }
 }
