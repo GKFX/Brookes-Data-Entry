@@ -23,7 +23,6 @@
 
 import Foundation
 
-
 class StudyLoader : NSObject, NSXMLParserDelegate {
     var state:    Int      = 0
     var study:    Study    = Study()
@@ -46,8 +45,10 @@ class StudyLoader : NSObject, NSXMLParserDelegate {
 
         for filename in filelist {
             var str: String = filename as! String
-            str = str.substringWithRange(Range<String.Index>(start: advance(str.startIndex, 6), end: advance(str.endIndex, -4)))
-            idlist.append(str)
+            if let id = str.rangeOfString("^study_.*\\.xml$", options: .RegularExpressionSearch) {
+                str = str.substringWithRange(Range<String.Index>(start: advance(str.startIndex, 6), end: advance(str.endIndex, -4)))
+                idlist.append(str)
+            }
         }
         return idlist
     }
@@ -67,25 +68,22 @@ class StudyLoader : NSObject, NSXMLParserDelegate {
         }
     }
 
-
-    func parser(parser: NSXMLParser??!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         if (elementName == "study") {
             study.name = attributeDict["name"] as! String
+
         } else if (elementName == "plan") {
             state = 1
-
 
         } else if (elementName == "data-type") && (state == 1) {
             state = 11
             dataType = (attributeDict["name"] as! String, [Field]())
-            study.customDataTypes.append(dataType)
+
         } else if (elementName == "value") && (state == 11) {
             dataType.fields.append((attributeDict["name"] as! String, attributeDict["type"] as! String))
 
-
         } else if (elementName == "test") && (state == 1) {
             test = (attributeDict["name"] as! String, [Field]())
-            study.tests.append(test)
         } else if (elementName == "value") && (state == 1) {
             test.fields.append((attributeDict["name"] as! String, attributeDict["type"] as! String))
         }
@@ -117,11 +115,14 @@ class StudyLoader : NSObject, NSXMLParserDelegate {
     }
 
 
-    func parser(parser: NSXMLParser??!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
+    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if (elementName == "plan") || (elementName == "results") {
             state = 0;
         } else if (elementName == "data-type") && (state == 11) {
+            study.customDataTypes.append(dataType)
             state = 1;
+        } else if (elementName == "test") && (state == 1) {
+            study.tests.append(test)
 
         } else if (elementName == "test") && (state == 2) {
             participant.testsRun.append(testRun)
