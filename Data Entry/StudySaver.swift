@@ -58,7 +58,7 @@ class StudySaver: NSObject, MFMailComposeViewControllerDelegate {
                     // No pretty-printing!!
                     xmlOut += xmlFormat("        <value name=\"%@\">%@</value>\n", value.name)
                 }
-                xmlOut += "      </test>"
+                xmlOut += "      </test>\n"
                 if (participant.notes != "") {
                     xmlOut += xmlFormat("      <note>%@</note>\n", participant.notes)
                 }
