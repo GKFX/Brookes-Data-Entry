@@ -126,8 +126,8 @@ class StudyLoader : NSObject, NSXMLParserDelegate {
 
         } else if (elementName == "test") && (state == 2) {
             participant.testsRun.append(testRun)
-        } else if (elementName == "value") && (state == 21) {
-            testRun.append((valueName, elemCont))
+        } else if (elementName == "value") && (state == 21) && (valueName != nil) {
+            testRun.values.append((valueName!, elemCont))
             elemCont == ""
             state = 2
         } else if (elementName == "note") && (state == 22) {

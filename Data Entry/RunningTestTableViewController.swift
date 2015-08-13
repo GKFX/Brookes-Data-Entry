@@ -50,7 +50,7 @@ class RunningTestTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return (runningTest == nil) ? 0 : runningTest.values.count
+        return (runningTest == nil) ? 0 : runningTest!.values.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

@@ -36,6 +36,7 @@ class Participant {
     var id = 0
     // An array of tuples of test name and values input.
     var testsRun = [TestRun]()
+    var notes: String = ""
 }
 
 

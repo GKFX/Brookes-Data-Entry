@@ -116,6 +116,10 @@ class StudiesTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    @IBAction func closeStudy(segue: UIStoryboardSegue) {
+
+    }
+
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender sender_: AnyObject?) {

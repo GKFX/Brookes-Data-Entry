@@ -25,9 +25,15 @@ import UIKit
 class StudyTableViewController: UITableViewController {
     
     var study: Study?
+    var studySaver = StudySaver()
+
+    @IBOutlet weak var titleBar: UINavigationItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        titleBar.title = "\(study!.name): Tests"
+        self.tableView.reloadData()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -57,9 +63,11 @@ class StudyTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TestCell", forIndexPath: indexPath) as! UITableViewCell
 
-        cell.textLabel?.text = study?.tests[indexPath.row].name
-        cell.detailTextLabel?.text = "\(study?.tests[indexPath.row].fields.count) fields"
-
+        if (study != nil) {
+            cell.textLabel?.text = study?.tests[indexPath.row].name
+            cell.detailTextLabel?.text = "\(study!.tests[indexPath.row].fields.count) fields"
+        }
+    
         return cell
     }
     
@@ -99,14 +107,20 @@ class StudyTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if let newTestVC = segue.destinationViewController as? NewTestViewController {
+            newTestVC.study = self.study
+        }
     }
-    */
+
+    
+    @IBAction func returnFromNewTest(segue: UIStoryboardSegue) {
+        studySaver.saveStudy(study!.name, study: study!)
+        self.tableView.reloadData()
+    }
 
 }
