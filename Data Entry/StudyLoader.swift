@@ -55,6 +55,16 @@ class StudyLoader : NSObject, NSXMLParserDelegate {
 
     /// Load the study with name "study_\(id).xml". Return `nil` otherwise.
     func loadStudy(id: String) -> (Study?) {
+        state       = 0
+        study       = Study()
+        dataType    = ("", [Field]())
+        test        = ("", [Field]())
+        testRun     = ("", [Value]())
+        valueName   = nil
+        elemCont    = ""
+        participant = Participant()
+
+        
         var path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
 
         if let inputStream = NSInputStream(fileAtPath: path + "/study_\(id).xml") {
